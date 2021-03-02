@@ -49,7 +49,7 @@ class Marked extends Component {
   }
 
   componentDidMount() {
-    var {filename, raw} = ls.get('marked-data')
+    var {filename, raw} = ls.get('marked-data') || { filename: "untitled", raw: ""}
     this.setState({
       filename: filename,
       raw: raw
