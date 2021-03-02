@@ -1,17 +1,13 @@
 import { Component } from 'react';
+const ReactMarkdown = require('react-markdown')
+const gfm = require('remark-gfm')
 
-/**
- * state: render text from props
- * props: rendered text
- * func: state updater per prop
- */
 
 class Preview extends Component {
   render() { 
+    const { text : markdown } = this.props;
     return (
-      <div className="preview">
-        hello
-      </div>
+        <ReactMarkdown plugins={[gfm]} source={markdown} className="preview" />
     );
   }
 }

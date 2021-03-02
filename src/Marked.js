@@ -16,7 +16,6 @@ Import/Export/Persist
  * themestate
  * filename .md
  * input
- * rendered text
  * viewstate
  */
 
@@ -24,8 +23,8 @@ Import/Export/Persist
   * Handlers
   * Theme
   * TextChange -> Render
-  * Load from store
-  * Save to store
+  * Load from store > didmount
+  * Save to store > with updateState
   * Export
   * Close(reset) Handler
   * Filename Change Handler
@@ -38,29 +37,39 @@ class Marked extends Component {
       filename: 'Welcome',
       theme: "DARK",
       view: "DUAL",
-      raw: '',
-      rendered: '' 
+      raw: ""
     }
+    this.rawInputHandler = this.rawInputHandler.bind(this);
   }
 
-  renderToMarkdown() {
-    // take raw from state and render
-  }
-  
   componentDidMount() {
     // load and init render
   }
 
   rawInputHandler(input) {
     // set raw text to state and init render
+    this.setState({raw: input});
+  }
+
+  setProperty(property, value) {
+    switch (property) {
+      case 'theme':
+        this.setState({theme: value})
+        break
+      case 'view':
+        this.setState({view: value})
+        break
+      default:
+        break
+    }
   }
 
   render() { 
     return (
       <div className="marked">
         <Menu />
-        <Editor />
-        <Preview />
+        <Editor text={this.state.raw} handler={this.rawInputHandler} />
+        <Preview text={this.state.raw} />
       </div>
     );
   }
