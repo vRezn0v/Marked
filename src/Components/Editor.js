@@ -16,14 +16,13 @@ class Editor extends Component {
   }
 
   inputHandler(e) {
-    console.log(e.target.value)
     this.setState({input: e.target.value});
     this.props.handler(e.target.value);
   }
 
   render() {  
     return (
-      <textarea className="editor" onChange={this.inputHandler}  value={this.state.input}></textarea>
+      <textarea className="editor" onChange={this.inputHandler}  value={this.state.input} spellcheck="false"></textarea>
     );
   }
 }

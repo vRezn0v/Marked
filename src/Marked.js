@@ -2,6 +2,7 @@ import { Component } from 'react';
 import Menu from './Components/Menu';
 import Editor from './Components/Editor';
 import Preview from './Components/Preview';
+import ls from 'local-storage';
 
 /* Features
 Input
@@ -34,21 +35,47 @@ class Marked extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filename: 'Welcome',
+      filename: 'untitled',
       theme: "DARK",
       view: "DUAL",
       raw: ""
     }
-    this.rawInputHandler = this.rawInputHandler.bind(this);
+    this.rawInputHandler = this.rawInputHandler.bind(this)
+    this.saveToStore = this.saveToStore.bind(this)
+    this.fileNameHandler = this.fileNameHandler.bind(this)
+    this.saveToStore = this.saveToStore.bind(this)
+    this.closeFileHandler = this.closeFileHandler.bind(this)
   }
 
   componentDidMount() {
-    // load and init render
+    var {filename, raw} = ls.get('marked-data')
+    this.setState({
+      filename: filename,
+      raw: raw
+    })
   }
 
   rawInputHandler(input) {
-    // set raw text to state and init render
-    this.setState({raw: input});
+    this.setState({raw: input})
+  }
+
+  fileNameHandler(name) {
+    this.setState({filename: name})
+  }
+
+  saveToStore() {
+    var stateData = {
+      filename: this.state.filename,
+      raw: this.state.raw
+    }
+    ls.set('marked-data', stateData)
+  }
+
+  closeFileHandler() {
+    this.setState({
+      filename: 'untitled',
+      raw: ""
+    }, this.saveToStore)
   }
 
   setProperty(property, value) {
@@ -67,9 +94,11 @@ class Marked extends Component {
   render() { 
     return (
       <div className="marked">
-        <Menu />
-        <Editor text={this.state.raw} handler={this.rawInputHandler} />
-        <Preview text={this.state.raw} />
+        <Menu className="header" name={this.state.filename} fileNameHandler={this.fileNameHandler} saveHandler={this.saveToStore} closeHandler={this.closeFileHandler} />
+        <div className="display">
+          <Editor text={this.state.raw} handler={this.rawInputHandler} />
+          <Preview text={this.state.raw} />
+        </div>
       </div>
     );
   }
