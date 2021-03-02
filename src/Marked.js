@@ -45,6 +45,7 @@ class Marked extends Component {
     this.fileNameHandler = this.fileNameHandler.bind(this)
     this.saveToStore = this.saveToStore.bind(this)
     this.closeFileHandler = this.closeFileHandler.bind(this)
+    this.titleUpdate = this.titleUpdate.bind(this)
   }
 
   componentDidMount() {
@@ -52,7 +53,11 @@ class Marked extends Component {
     this.setState({
       filename: filename,
       raw: raw
-    })
+    }, this.titleUpdate)
+  }
+
+  titleUpdate() {
+    document.title = "Marked - " + this.state.filename
   }
 
   rawInputHandler(input) {
@@ -60,7 +65,7 @@ class Marked extends Component {
   }
 
   fileNameHandler(name) {
-    this.setState({filename: name})
+    this.setState({filename: name}, this.titleUpdate)
   }
 
   saveToStore() {

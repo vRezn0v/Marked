@@ -26,8 +26,17 @@ body {
 }
 
 .header .branding {
-  padding-left: 10px;
+  padding-left: 50px;
   margin: 20px 40px 20px 0;
+}
+
+.header input {
+  font-family: "Rubik", sans-serif;
+  background: #212121;
+  border: none;
+  color: #dddddd;
+  border-bottom: 1px solid #ddd;
+  outline: none;
 }
 
 .header .actions {
@@ -61,6 +70,9 @@ body {
 .editor {
   font-family: "Fira Code", monospace;
   resize: none;
+  outline: none;
+  border: none;
+  background: #3a3a3a;
 }
 
 .preview {
