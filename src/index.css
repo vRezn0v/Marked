@@ -2,11 +2,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Code&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css");
 
+/*
+Themes:
+*/
+.dark {
+  --bg: #212121;
+  --text: #dddddd;
+  --highlight: #ffffff;
+  --editorbg: #3a3a3a;
+  --previewbg: #4a4a4a;
+  --texted: #eeeeee;
+}
+
+/*
+Styles:
+*/
+
+* {
+  color: var(--text);
+}
+
 body {
   margin: 0;
   font-family: "Rubik", sans-serif;
-  background-color: #212121;
-  color: #ddd;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .marked {
@@ -20,7 +40,7 @@ body {
 .header {
   display: flex;
   width: 100%;
-  background-color: #212121;
+  background-color: var(--bg);
   align-items: center;
   user-select: none;
 }
@@ -32,10 +52,10 @@ body {
 
 .header input {
   font-family: "Rubik", sans-serif;
-  background: #212121;
+  background: var(--bg);
   border: none;
-  color: #dddddd;
-  border-bottom: 1px solid #ddd;
+  color: var(--text);
+  border-bottom: 1px solid var(--text);
   outline: none;
 }
 
@@ -50,6 +70,10 @@ body {
   font-size: 1.4rem;
 }
 
+.header .actions .action:hover {
+  color: var(--highlight) !important;
+}
+
 .display {
   width: 100%;
   display: flex;
@@ -58,8 +82,7 @@ body {
 
 .editor,
 .preview {
-  background: #4a4a4a;
-  color: #eee;
+  color: var(--texted);
   width: 100%;
   overflow-y: auto;
   padding: 60px;
@@ -72,15 +95,39 @@ body {
   resize: none;
   outline: none;
   border: none;
-  background: #3a3a3a;
+  background: var(--editorbg);
 }
 
 .preview {
+  background: var(--previewbg);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.editoronly .preview {
+  display: none;
+}
+
+.previewonly .editor {
+  display: none;
 }
 
 .preview a {
   color: #f1f1f1;
   font-weight: 700;
+}
+
+.footer {
+  width: 100%;
+  background: var(--bg);
+  display: flex;
+  padding: 10px 20px;
+  font-weight: 700;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.footer span {
+  margin: 0 10px;
+  width: 120px;
 }

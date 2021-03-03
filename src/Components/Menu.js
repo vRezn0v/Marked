@@ -28,8 +28,8 @@ class Menu extends Component {
           {/*<div className="action" ><i className="far fa-folder"></i></div>*/}
           <div className="action" onClick={this.props.saveHandler}><i className="far fa-save"></i></div>
           {/*<div className="action"><i className="far fa-arrow-alt-circle-down"></i></div>
-          <div className="action"><i className="fas fa-adjust"></i></div>
-          <div className="action"><i className="far fa-eye"></i></div>*/}
+          <div className="action"><i className="fas fa-adjust"></i></div>*/}
+          <div className="action" onClick={this.props.displayHandler}><i className="far fa-eye"></i></div>
           <div className="action" onClick={this.props.closeHandler}><i className="far fa-times-circle"></i></div>
         </div>
       </div>

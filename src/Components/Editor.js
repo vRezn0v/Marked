@@ -22,7 +22,7 @@ class Editor extends Component {
 
   render() {  
     return (
-      <textarea className="editor" onChange={this.inputHandler}  value={this.state.input} spellcheck="false"></textarea>
+      <textarea className="editor" onChange={this.inputHandler}  value={this.state.input} spellCheck="false"></textarea>
     );
   }
 }
