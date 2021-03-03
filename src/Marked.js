@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { createRef , Component } from 'react';
 import Menu from './Components/Menu';
 import Editor from './Components/Editor';
 import Preview from './Components/Preview';
@@ -52,6 +52,11 @@ class Marked extends Component {
     this.saveShortcutHandler = this.saveShortcutHandler.bind(this)
     this.displayHandler = this.displayHandler.bind(this)
     this.wordCount = this.wordCount.bind(this)
+    this.exportFileAs = this.exportFileAs.bind(this)
+
+    this.previewRef = createRef()
+    this.mdRef = createRef()
+    this.htmlRef = createRef()
   }
 
   componentDidMount() {
@@ -62,6 +67,7 @@ class Marked extends Component {
     }, () => {
       this.titleUpdate()
       this.wordCount()
+      this.exportFileAs()
     })
   }
 
@@ -70,11 +76,17 @@ class Marked extends Component {
   }
 
   rawInputHandler(input) {
-    this.setState({raw: input}, this.wordCount)
+    this.setState({raw: input}, () => {
+      this.wordCount()
+      this.exportFileAs()
+    })
   }
 
   fileNameHandler(name) {
-    this.setState({filename: name}, this.titleUpdate)
+    this.setState({filename: name}, () => {
+      this.titleUpdate()
+      this.exportFileAs()
+    })
   }
 
   saveToStore() {
@@ -126,9 +138,26 @@ class Marked extends Component {
   saveShortcutHandler(e) {
     if (!(e.key === 's' && e.ctrlKey) && !(e.key === 'DC3')) return true;
     e.preventDefault()
-    console.log("Intercepted")
     this.saveToStore()
     //send toast
+  }
+
+  exportFileAs() {
+    if (this.state.wc!==0) {
+      var dataUri
+      var data
+      data = this.state.raw
+      dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
+      this.mdRef.current.href = dataUri
+      this.mdRef.current.download = this.state.filename + ".md"
+      data = this.previewRef.current.innerHTML
+      dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
+      this.htmlRef.current.href = dataUri
+      this.htmlRef.current.download = this.state.filename + ".html"
+    } else {
+      this.mdRef.current.href = "#"
+      this.htmlRef.current.href = "#"
+    }
   }
 
   wordCount() {
@@ -148,10 +177,10 @@ class Marked extends Component {
   render() {  
     return (
       <div className="marked" onKeyDown={this.saveShortcutHandler}>
-        <Menu className="header" name={this.state.filename} fileNameHandler={this.fileNameHandler} saveHandler={this.saveToStore} closeHandler={this.closeFileHandler} displayHandler={this.displayHandler} />
+        <Menu className="header" name={this.state.filename} fileNameHandler={this.fileNameHandler} saveHandler={this.saveToStore} closeHandler={this.closeFileHandler} displayHandler={this.displayHandler} refs={[this.mdRef, this.htmlRef]}/>
         <div className={`display ${this.state.viewClass}`}>
           <Editor text={this.state.raw} handler={this.rawInputHandler} />
-          <Preview text={this.state.raw} />
+          <Preview pref={this.previewRef} text={this.state.raw} />
         </div>
         <Status wc={this.state.wc} displaymode={this.state.view} theme={this.state.theme} className="footer" />
       </div>

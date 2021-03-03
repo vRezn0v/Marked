@@ -5,9 +5,11 @@ const gfm = require('remark-gfm')
 
 class Preview extends Component {
   render() { 
-    const { text : markdown } = this.props;
+    const { text : markdown, pref } = this.props;
     return (
-        <ReactMarkdown plugins={[gfm]} source={markdown} className="preview" />
+      <div className="preview" ref={pref}>
+        <ReactMarkdown plugins={[gfm]} source={markdown} />
+      </div>
     );
   }
 }
