@@ -63,6 +63,11 @@ class Marked extends Component {
 
   componentDidMount() {
     var {filename, raw, theme, view, viewClass} = ls.get('marked-data') || { filename: "untitled", raw: ""}
+    if (theme === undefined) theme = "DARK"
+    if (view === undefined) {
+      view = "DUAL"
+      viewClass = ""
+    }
     this.setState({
       filename: filename,
       raw: raw,
@@ -73,8 +78,6 @@ class Marked extends Component {
       this.titleUpdate()
       this.wordCount()
       this.exportFileAs()
-      if (this.state.theme===undefined) this.setState({theme: 'DARK'})
-      if (this.state.view===undefined) this.setState({view: 'DUAL', viewClass: ''})
       this.setTheme()
     })
   }
