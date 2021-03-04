@@ -38,7 +38,7 @@ class Marked extends Component {
     this.state = {
       filename: 'untitled',
       theme: "DARK",
-      view: "DUAL",
+      view: "",
       viewClass: "",
       raw: "",
       wc: ""
@@ -53,6 +53,8 @@ class Marked extends Component {
     this.displayHandler = this.displayHandler.bind(this)
     this.wordCount = this.wordCount.bind(this)
     this.exportFileAs = this.exportFileAs.bind(this)
+    this.themeChange = this.themeChange.bind(this)
+
 
     this.previewRef = createRef()
     this.mdRef = createRef()
@@ -60,14 +62,20 @@ class Marked extends Component {
   }
 
   componentDidMount() {
-    var {filename, raw} = ls.get('marked-data') || { filename: "untitled", raw: ""}
+    var {filename, raw, theme, view, viewClass} = ls.get('marked-data') || { filename: "untitled", raw: ""}
     this.setState({
       filename: filename,
-      raw: raw
+      raw: raw,
+      theme: theme,
+      view: view,
+      viewClass: viewClass
     }, () => {
       this.titleUpdate()
       this.wordCount()
       this.exportFileAs()
+      if (this.state.theme===undefined) this.setState({theme: 'DARK'})
+      if (this.state.view===undefined) this.setState({view: 'DUAL', viewClass: ''})
+      this.setTheme()
     })
   }
 
@@ -92,7 +100,10 @@ class Marked extends Component {
   saveToStore() {
     var stateData = {
       filename: this.state.filename,
-      raw: this.state.raw
+      raw: this.state.raw,
+      view: this.state.view,
+      viewClass: this.state.viewClass,
+      theme: this.state.theme
     }
     ls.set('marked-data', stateData)
   }
@@ -119,20 +130,18 @@ class Marked extends Component {
       this.setState({view: 'DUAL', viewClass: displays.DUAL})
   }
 
-  setProperty(property, value) {
-    switch (property) {
-      case 'theme':
-        this.setState({theme: value})
-        break
-      case 'view':
-        this.setState({view: value})
-        break
-      case 'viewClass':
-        this.setState({viewClass: value})
-        break
-      default:
-        break
-    }
+  themeChange() {
+    if (this.state.theme==='DARK')
+      this.setState({theme: 'LIGHT'}, this.setTheme)
+    else
+      this.setState({theme: 'DARK'}, this.setTheme)
+  }
+
+  setTheme() {
+    var target = document.getElementById('root')
+    target.classList.remove(target.classList[0])
+    target.classList.add(this.state.theme)
+    console.log(target.classList)
   }
 
   saveShortcutHandler(e) {
@@ -177,7 +186,7 @@ class Marked extends Component {
   render() {  
     return (
       <div className="marked" onKeyDown={this.saveShortcutHandler}>
-        <Menu className="header" name={this.state.filename} fileNameHandler={this.fileNameHandler} saveHandler={this.saveToStore} closeHandler={this.closeFileHandler} displayHandler={this.displayHandler} refs={[this.mdRef, this.htmlRef]}/>
+        <Menu className="header" name={this.state.filename} fileNameHandler={this.fileNameHandler} saveHandler={this.saveToStore} closeHandler={this.closeFileHandler} displayHandler={this.displayHandler} themeChange={this.themeChange} refs={[this.mdRef, this.htmlRef]}/>
         <div className={`display ${this.state.viewClass}`}>
           <Editor text={this.state.raw} handler={this.rawInputHandler} />
           <Preview pref={this.previewRef} text={this.state.raw} />

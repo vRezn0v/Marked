@@ -5,13 +5,22 @@
 /*
 Themes:
 */
-.dark {
+.DARK {
   --bg: #212121;
   --text: #dddddd;
   --highlight: #ffffff;
   --editorbg: #3a3a3a;
   --previewbg: #4a4a4a;
   --texted: #eeeeee;
+}
+
+.LIGHT {
+  --bg: #dddddd;
+  --text: #313131;
+  --highlight: #ffffff;
+  --editorbg: #cdcdcd;
+  --previewbg: #dedede;
+  --texted: #808080;
 }
 
 /*
@@ -43,6 +52,10 @@ body {
   background-color: var(--bg);
   align-items: center;
   user-select: none;
+}
+
+.LIGHT .header {
+  border-bottom: 1px solid;
 }
 
 .header .branding {
@@ -98,6 +111,11 @@ body {
   background: var(--editorbg);
 }
 
+.LIGHT .editor,
+.LIGHT .preview {
+  border: 1px solid;
+}
+
 .preview {
   background: var(--previewbg);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
@@ -125,6 +143,10 @@ body {
   font-weight: 700;
   justify-content: space-between;
   user-select: none;
+}
+
+.LIGHT .footer {
+  border-top: 1px solid;
 }
 
 .footer span {

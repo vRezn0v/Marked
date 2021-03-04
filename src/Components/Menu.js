@@ -29,7 +29,7 @@ class Menu extends Component {
           <div className="action" onClick={this.props.saveHandler}><i className="far fa-save"></i></div>
           <a ref={this.props.refs[0]} href="#"><div className="action"><i className="fab fa-markdown"></i></div></a>
           <a ref={this.props.refs[1]} href="#"><div className="action"><i className="far fa-file-code"></i></div></a>
-          {/*<div className="action"><i className="fas fa-adjust"></i></div>*/}
+          <div className="action" onClick={this.props.themeChange}><i className="fas fa-adjust"></i></div>
           <div className="action" onClick={this.props.displayHandler}><i className="far fa-eye"></i></div>
           <div className="action" onClick={this.props.closeHandler}><i className="far fa-times-circle"></i></div>
         </div>
