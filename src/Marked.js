@@ -5,32 +5,6 @@ import Preview from './Components/Preview';
 import ls from 'local-storage';
 import Status from './Components/Status';
 
-/* Features
-Input
-Output
-Themer
-Clipboard Service
-Import/Export/Persist
-*/
-
-/**
- * State
- * themestate
- * filename .md
- * input
- * viewstate
- */
-
- /**
-  * Handlers
-  * Theme
-  * TextChange -> Render
-  * Load from store > didmount
-  * Save to store > with updateState
-  * Export
-  * Close(reset) Handler
-  * Filename Change Handler
-  */
 
 class Marked extends Component {
   constructor(props) {
@@ -43,18 +17,6 @@ class Marked extends Component {
       raw: "",
       wc: ""
     }
-    this.rawInputHandler = this.rawInputHandler.bind(this)
-    this.saveToStore = this.saveToStore.bind(this)
-    this.fileNameHandler = this.fileNameHandler.bind(this)
-    this.saveToStore = this.saveToStore.bind(this)
-    this.closeFileHandler = this.closeFileHandler.bind(this)
-    this.titleUpdate = this.titleUpdate.bind(this)
-    this.saveShortcutHandler = this.saveShortcutHandler.bind(this)
-    this.displayHandler = this.displayHandler.bind(this)
-    this.wordCount = this.wordCount.bind(this)
-    this.exportFileAs = this.exportFileAs.bind(this)
-    this.themeChange = this.themeChange.bind(this)
-
 
     this.previewRef = createRef()
     this.mdRef = createRef()
@@ -86,21 +48,21 @@ class Marked extends Component {
     document.title = "Marked - " + this.state.filename
   }
 
-  rawInputHandler(input) {
+  rawInputHandler = input => {
     this.setState({raw: input}, () => {
       this.wordCount()
       this.exportFileAs()
     })
   }
 
-  fileNameHandler(name) {
+  fileNameHandler = name => {
     this.setState({filename: name}, () => {
       this.titleUpdate()
       this.exportFileAs()
     })
   }
 
-  saveToStore() {
+  saveToStore = () => {
     var stateData = {
       filename: this.state.filename,
       raw: this.state.raw,
@@ -111,7 +73,7 @@ class Marked extends Component {
     ls.set('marked-data', stateData)
   }
 
-  closeFileHandler() {
+  closeFileHandler = () => {
     this.setState({
       filename: 'untitled',
       raw: ""
@@ -119,7 +81,7 @@ class Marked extends Component {
   }
 
 
-  displayHandler() {
+  displayHandler = () => {
     var displays = {
       'DUAL': '',
       'EDITOR': 'editoronly',
@@ -133,28 +95,28 @@ class Marked extends Component {
       this.setState({view: 'DUAL', viewClass: displays.DUAL})
   }
 
-  themeChange() {
+  themeChange = () => {
     if (this.state.theme==='DARK')
       this.setState({theme: 'LIGHT'}, this.setTheme)
     else
       this.setState({theme: 'DARK'}, this.setTheme)
   }
 
-  setTheme() {
+  setTheme = () => {
     var target = document.getElementById('root')
     target.classList.remove(target.classList[0])
     target.classList.add(this.state.theme)
     console.log(target.classList)
   }
 
-  saveShortcutHandler(e) {
+  saveShortcutHandler = e => {
     if (!(e.key === 's' && e.ctrlKey) && !(e.key === 'DC3')) return true;
     e.preventDefault()
     this.saveToStore()
     //send toast
   }
 
-  exportFileAs() {
+  exportFileAs = () => {
     if (this.state.wc!==0) {
       var dataUri
       var data
@@ -172,7 +134,7 @@ class Marked extends Component {
     }
   }
 
-  wordCount() {
+  wordCount = () => {
     var md = this.state.raw;
     md = md.split('');
     md = md.filter(e => e!=='#'&&e!=='*'&&e!=='-'&&e!=='_'&&e!=='|').join('')

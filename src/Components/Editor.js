@@ -6,7 +6,6 @@ class Editor extends Component {
     this.state = {
       input: ''
     }
-    this.inputHandler = this.inputHandler.bind(this);
   }
 
   static getDerivedStateFromProps(props, prevState) {
@@ -15,7 +14,7 @@ class Editor extends Component {
     }
   }
 
-  inputHandler(e) {
+  inputHandler = e => {
     this.setState({input: e.target.value});
     this.props.handler(e.target.value);
   }

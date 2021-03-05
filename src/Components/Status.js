@@ -1,7 +1,6 @@
 import { Component } from 'react';
 
 class Status extends Component {
-  // props: wc, displaymode, theme
   render() {
     var {wc, displaymode, theme} = this.props
     return (

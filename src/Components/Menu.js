@@ -6,7 +6,6 @@ class Menu extends Component {
     this.state = {
       name: props.name
     }
-    this.changeHandler = this.changeHandler.bind(this)
   }
   static getDerivedStateFromProps(props, prevState) {
     return {
@@ -14,7 +13,7 @@ class Menu extends Component {
     }
   }
 
-  changeHandler(e) {
+  changeHandler = e => {
     this.setState({name: e.target.value});
     this.props.fileNameHandler(e.target.value);
   }
